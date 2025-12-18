@@ -37,9 +37,9 @@ function createErrorSection(errors) {
   section.innerHTML = `
     <div class="errors-header">
       <h4 class="errors-header__title">⚠️ Warnings & Errors</h4>
-      <button class="errors-toggle collapsed">▼</button>
+      <button class="errors-toggle collapsed">-></button>
     </div>
-    <div class="errors-content">
+    <div class="errors-content custom-scrollbar">
       <div class="error-category">
         <div class="error-category__title">Critical (${errors.critical?.length || 0})</div>
         ${createListHTML(errors.critical || [])}
@@ -563,9 +563,6 @@ function createImportExportControls() {
               <input type="file" id="importConfig" accept=".json" style="display: none" />
             </label>
           </div>
-        <div class="import-export-help">
-          <small>Export your color scheme as JSON to save or share it</small>
-        </div>
   `;
 
   // Append to the Basic Settings section

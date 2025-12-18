@@ -14,26 +14,23 @@
   </head>
 
   <body>
+    <header class="main-header">
+      <span style="display: inline-block">
+        <h2 class="main-header__title">Color System Output</h2>
+        <!-- <p class="main-header__subtitle">Generated color tokens and palettes</p> -->
+      </span>
+    </header>
+
     <div class="app-container">
       <!-- Sidebar Panel -->
       <aside class="sidebar">
-        <header class="sidebar-header">
-          <h3 class="sidebar-header__title">Color System Designer</h3>
-          <p class="sidebar-header__subtitle">Build and visualize your color system</p>
-        </header>
-        <div class="sidebar-content custom-scrollbar" id="colorInputs">
+        <div class="sidebar-content custom-scrollbar" style="scroll-padding-block-start: 16px" id="colorInputs">
           <!-- Control inputs will be dynamically inserted here -->
         </div>
       </aside>
 
       <!-- Main Content Area -->
       <main class="main-content">
-        <header class="main-header">
-          <span style="display: inline-block">
-            <h2 class="main-header__title">Color System Output</h2>
-            <p class="main-header__subtitle">Generated color tokens and palettes</p>
-          </span>
-        </header>
         <div class="main-body custom-scrollbar" id="rawColorsContainer">
           <!-- Color tokens will be dynamically inserted here -->
         </div>
