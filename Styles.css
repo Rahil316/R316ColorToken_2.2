@@ -239,7 +239,8 @@ body {
 
 /* Raw Colors Section */
 .raw-colors-section {
-  box-shadow: -20px -20px 60px #bebebe, 20px 20px 60px #ffffff;
+  box-shadow: 11px 11px 10px #c5c5c5, -11px -11px 10px #c5c5c5;
+
   background-color: #eaf5ff;
   border: 1px solid #989ece;
   margin-bottom: 1.5rem;
