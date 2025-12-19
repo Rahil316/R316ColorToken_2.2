@@ -12,7 +12,6 @@ function getOptimalTextColor(bg) {
 // DISPLAY FUNCTIONS
 function displayColorTokens(collection) {
   const container = document.getElementById("rawColorsContainer");
-  if (!container) return;
 
   container.classList.add("color-system-updating");
   const fragment = document.createDocumentFragment();
@@ -220,19 +219,6 @@ function createThemeSection(con, theme) {
   return section;
 }
 
-// function createDebugSection(collection) {
-//   const { raw, ctx, errors } = collection;
-//   const section = document.createElement("div");
-//   section.className = "debug-section";
-//   section.innerHTML = `
-//     <div class="action-buttons">
-//       <button id="exportCss" class="btn btn--primary">Export CSS</button>
-//       <button id="downloadCsv" class="btn btn--primary">Export CSV</button>
-//     </div>
-//   `;
-//   return section;
-// }
-
 // CONTROL PANEL FUNCTIONS
 function createColorInputs(colorScheme, onUpdate) {
   const targetContainer = document.getElementById("colorInputs");
@@ -372,7 +358,7 @@ function createColorGroupsSection(colorScheme) {
 
   return colorsSection;
 }
-
+// forms the input controls for a single color group
 function createColorGroupInput(group, index) {
   const div = document.createElement("div");
   div.className = "color-group-control";
@@ -439,7 +425,7 @@ function createColorInput(path, label, value) {
   setupColorInputSync(div);
   return div;
 }
-
+// Syncs color picker and text input
 function setupColorInputSync(container) {
   const colorPicker = container.querySelector(".color-picker");
   const colorText = container.querySelector(".color-text");
@@ -602,28 +588,10 @@ function importColorScheme(event, onImportSuccess) {
   reader.readAsText(file);
 }
 
-function createImportExportControls() {
-  // Find the Basic Settings section
-  const basicSettingsSection = document.querySelector(".main-header");
-
-  if (!basicSettingsSection) {
-    console.error("Could not find Basic Settings section");
-    return;
-  }
-
-  // Check if import/export controls already exist
-  const existingControls = basicSettingsSection.querySelector(
-    ".import-export-controls"
-  );
-  if (existingControls) {
-    existingControls.remove();
-  }
-
-  // Create import/export controls
-  const importExportDiv = document.createElement("div");
-  importExportDiv.className = "import-export-controls";
-  importExportDiv.innerHTML = `
-        <div class="import-export-buttons">
+function createMainBtnGroup() {
+  const basicSettingsSection = document.querySelector("#mainActionBtns");
+  basicSettingsSection.className = "import-export-controls btn-Group";
+  basicSettingsSection.innerHTML = `
         <button id="exportCss" class="btn btn--primary">Export CSS</button>
         <button id="downloadCsv" class="btn btn--primary">Export CSV</button>
         <button id="exportConfig" class="btn btn--primary">Export Config</button>
@@ -631,15 +599,11 @@ function createImportExportControls() {
               Import Config
               <input type="file" id="importConfig" accept=".json" style="display: none" />
             </label>
-          </div>
   `;
 
-  // Append to the Basic Settings section
-  basicSettingsSection.appendChild(importExportDiv);
-
   // Set up event listeners
-  const exportBtn = importExportDiv.querySelector("#exportConfig");
-  const importInput = importExportDiv.querySelector("#importConfig");
+  const exportBtn = basicSettingsSection.querySelector("#exportConfig");
+  const importInput = basicSettingsSection.querySelector("#importConfig");
 
   if (exportBtn) {
     exportBtn.addEventListener("click", (e) => {
@@ -666,8 +630,6 @@ function createImportExportControls() {
 
 // INITIALIZATION
 function initializeColorControls() {
-  console.log("Initializing color controls...");
-
   // Always work on a deep copy so UI changes do not mutate the original
   const editable = JSON.parse(JSON.stringify(colorScheme));
   window.currentEditableScheme = editable; // Set global variable
@@ -681,7 +643,7 @@ function initializeColorControls() {
 
   // Add import/export controls
   setTimeout(() => {
-    createImportExportControls();
+    createMainBtnGroup();
   }, 50);
 
   // Render initial output

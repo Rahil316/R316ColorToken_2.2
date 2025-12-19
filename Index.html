@@ -14,33 +14,18 @@
   </head>
 
   <body>
-    <header class="main-header">
-      <span style="display: inline-block">
-        <h2 class="main-header__title">Rahil's Color System Manger</h2>
-        <!-- <p class="main-header__subtitle">Generated color tokens and palettes</p> -->
-      </span>
-    </header>
+    <app>
+      <header>
+        <span style="display: inline-block">
+          <h2 class="main-header__title">Rahil's Color System Manger</h2>
+        </span>
+        <span id="mainActionBtns"></span>
+      </header>
 
-    <div class="app-container">
-      <!-- Sidebar Panel -->
-      <aside class="sidebar">
-        <div
-          class="sidebar-content custom-scrollbar"
-          style="scroll-padding-block-start: 16px"
-          id="colorInputs"
-        >
-          <!-- Control inputs will be dynamically inserted here -->
-        </div>
-      </aside>
+      <aside class="sidebar-content custom-scrollbar" id="colorInputs"></aside>
 
-      <!-- Main Content Area -->
-      <main class="main-content">
-        <div class="main-body custom-scrollbar" id="rawColorsContainer">
-          <!-- Color tokens will be dynamically inserted here -->
-        </div>
-      </main>
-    </div>
-
+      <main class="main-body custom-scrollbar" id="rawColorsContainer"></main>
+    </app>
     <script src="JS/Utils.js"></script>
     <script src="JS/UiGen.js"></script>
     <script src="JS/DocGen.js"></script>
