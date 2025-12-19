@@ -4,7 +4,9 @@ window.currentEditableScheme = null;
 // UTILITY FUNCTIONS
 function getOptimalTextColor(bg) {
   const b = normalizeHex(bg) || "#000000";
-  return contrastRatio(b, "#000000") > contrastRatio(b, "#FFFFFF") ? "black" : "white";
+  return contrastRatio(b, "#000000") > contrastRatio(b, "#FFFFFF")
+    ? "black"
+    : "white";
 }
 
 // DISPLAY FUNCTIONS
@@ -15,7 +17,8 @@ function displayColorTokens(collection) {
   container.classList.add("color-system-updating");
   const fragment = document.createDocumentFragment();
 
-  if (collection.errors) fragment.appendChild(createErrorSection(collection.errors));
+  if (collection.errors)
+    fragment.appendChild(createErrorSection(collection.errors));
   fragment.appendChild(createRawSection(collection.raw));
   fragment.appendChild(createThemeSection(collection.ctx, "light"));
   fragment.appendChild(createThemeSection(collection.ctx, "dark"));
@@ -30,7 +33,12 @@ function displayColorTokens(collection) {
 
 function createErrorSection(errors) {
   const createListHTML = (arr) =>
-    arr.map((e) => `<div class="error-item">${e.error || e.warning || e.notice}</div>`).join("");
+    arr
+      .map(
+        (e) =>
+          `<div class="error-item">${e.error || e.warning || e.notice}</div>`
+      )
+      .join("");
 
   const section = document.createElement("div");
   section.className = "errors-section";
@@ -41,15 +49,21 @@ function createErrorSection(errors) {
     </div>
     <div class="errors-content custom-scrollbar">
       <div class="error-category">
-        <div class="error-category__title">Critical (${errors.critical?.length || 0})</div>
+        <div class="error-category__title">Critical (${
+          errors.critical?.length || 0
+        })</div>
         ${createListHTML(errors.critical || [])}
       </div>
       <div class="error-category">
-        <div class="error-category__title">Warnings (${errors.warnings?.length || 0})</div>
+        <div class="error-category__title">Warnings (${
+          errors.warnings?.length || 0
+        })</div>
         ${createListHTML(errors.warnings || [])}
       </div>
       <div class="error-category">
-        <div class="error-category__title">Notices (${errors.notices?.length || 0})</div>
+        <div class="error-category__title">Notices (${
+          errors.notices?.length || 0
+        })</div>
         ${createListHTML(errors.notices || [])}
       </div>
     </div>
@@ -89,11 +103,15 @@ function createRawSection(raw) {
               </div>
               <div class="swatch-contrast">
                 <span class="contrast-label">Light</span>
-                <span>${(data.contrast.light.ratio || 0).toFixed(2)} - ${data.contrast.light.rating}</span>
+                <span>${(data.contrast.light.ratio || 0).toFixed(2)} - ${
+            data.contrast.light.rating
+          }</span>
               </div>
               <div class="swatch-contrast">
                 <span class="contrast-label">Dark</span>
-                <span>${(data.contrast.dark.ratio || 0).toFixed(2)} - ${data.contrast.dark.rating}</span>
+                <span>${(data.contrast.dark.ratio || 0).toFixed(2)} - ${
+            data.contrast.dark.rating
+          }</span>
               </div>
             </div>
           </div>
@@ -152,9 +170,15 @@ function createThemeSection(con, theme) {
                     <div class="token-hex">${colorValue}</div>
                     <div class="token-ref">Ref: ${data.valueRef}</div>
                     <div class="token-contrast">
-                      Contrast: ${(data.contrastRatio || 0).toFixed(2)} - ${data.contrastRating}
+                      Contrast: ${(data.contrastRatio || 0).toFixed(2)} - ${
+                data.contrastRating
+              }
                     </div>
-                    ${data.isAdjusted ? '<div class="token-adjustment">Adjusted</div>' : ""}
+                    ${
+                      data.isAdjusted
+                        ? '<div class="token-adjustment">Adjusted</div>'
+                        : ""
+                    }
                     <div class="token-theme">${themeName} Theme</div>
                   </div>
                 </div>
@@ -172,7 +196,8 @@ function createThemeSection(con, theme) {
             : "";
         })
         .join("");
-      let className = theme === "dark" ? "contextual-group-dark" : "contextual-group";
+      let className =
+        theme === "dark" ? "contextual-group-dark" : "contextual-group";
 
       return rolesHTML
         ? `
@@ -219,11 +244,32 @@ function createColorInputs(colorScheme, onUpdate) {
   // ----- Basic Settings -----
   const basicSection = createSection("Basic Settings");
   basicSection.className = "color-group-control";
-  basicSection.appendChild(createInput("name", "System Name", colorScheme.name));
-  basicSection.appendChild(createInput("weightCount", "Weight Count", colorScheme.weightCount, "number"));
+  basicSection.appendChild(
+    createInput("name", "System Name", colorScheme.name)
+  );
+  basicSection.appendChild(
+    createInput(
+      "weightCount",
+      "Weight Count",
+      colorScheme.weightCount,
+      "number"
+    )
+  );
   // ----- Background Colors -----
-  basicSection.appendChild(createColorInput("lightBg", "Light Theme Background", colorScheme.lightBg || "FFFFFF"));
-  basicSection.appendChild(createColorInput("darkBg", "Dark Theme Background", colorScheme.darkBg || "000000"));
+  basicSection.appendChild(
+    createColorInput(
+      "lightBg",
+      "Light Theme Background",
+      colorScheme.lightBg || "FFFFFF"
+    )
+  );
+  basicSection.appendChild(
+    createColorInput(
+      "darkBg",
+      "Dark Theme Background",
+      colorScheme.darkBg || "000000"
+    )
+  );
   targetContainer.appendChild(basicSection);
 
   // ----- Color Groups -----
@@ -255,7 +301,11 @@ function createColorInputs(colorScheme, onUpdate) {
         // Numeric fields (gaps, weightCount, minContrast)
         else if (type === "number") {
           const n = rawVal === "" ? 0 : Number(rawVal);
-          updateColorScheme(colorScheme, path, Number.isFinite(n) ? Math.floor(n) : 0);
+          updateColorScheme(
+            colorScheme,
+            path,
+            Number.isFinite(n) ? Math.floor(n) : 0
+          );
         }
 
         // Everything else
@@ -276,7 +326,11 @@ function createColorInputs(colorScheme, onUpdate) {
 
       if (type === "number") {
         const n = rawVal === "" ? 0 : Number(rawVal);
-        updateColorScheme(colorScheme, path, Number.isFinite(n) ? Math.floor(n) : 0);
+        updateColorScheme(
+          colorScheme,
+          path,
+          Number.isFinite(n) ? Math.floor(n) : 0
+        );
       } else {
         updateColorScheme(colorScheme, path, rawVal.replace("#", ""));
       }
@@ -323,7 +377,8 @@ function createColorGroupInput(group, index) {
   const div = document.createElement("div");
   div.className = "color-group-control";
 
-  const formattedLabel = group.name.charAt(0).toUpperCase() + group.name.slice(1);
+  const formattedLabel =
+    group.name.charAt(0).toUpperCase() + group.name.slice(1);
 
   div.innerHTML = `
     <div class="color-group-header">
@@ -415,13 +470,24 @@ function createRolesSection(colorScheme) {
     roleDiv.innerHTML = `<h4 class="role-control-group__title">${role.name}</h4>`;
 
     // Min contrast input
-    roleInputs.appendChild(createInput(`roles.${roleKey}.minContrast`, "Min Contrast", role.minContrast, "number"));
+    roleInputs.appendChild(
+      createInput(
+        `roles.${roleKey}.minContrast`,
+        "Min Contrast",
+        role.minContrast,
+        "number"
+      )
+    );
 
     // Gaps input
-    roleInputs.appendChild(createInput(`roles.${roleKey}.gaps`, "Gaps", role.gaps, "number"));
+    roleInputs.appendChild(
+      createInput(`roles.${roleKey}.gaps`, "Gaps", role.gaps, "number")
+    );
 
     // Short name input
-    roleInputs.appendChild(createInput(`roles.${roleKey}.shortName`, "Short Name", role.shortName));
+    roleInputs.appendChild(
+      createInput(`roles.${roleKey}.shortName`, "Short Name", role.shortName)
+    );
 
     roleDiv.appendChild(roleInputs);
     rolesSection.appendChild(roleDiv);
@@ -490,11 +556,12 @@ function updateColorScheme(colorScheme, path, value) {
 // CONFIG IMPORT/EXPORT FUNCTIONS
 function exportColorScheme(colorScheme) {
   const dataStr = JSON.stringify(colorScheme, null, 2);
-  const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+  const dataUri =
+    "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
 
-  const exportFileDefaultName = `color-scheme-${colorScheme.name || "untitled"}-${new Date()
-    .toISOString()
-    .slice(0, 10)}.json`;
+  const exportFileDefaultName = `color-scheme-${
+    colorScheme.name || "untitled"
+  }-${new Date().toISOString().slice(0, 10)}.json`;
 
   const linkElement = document.createElement("a");
   linkElement.setAttribute("href", dataUri);
@@ -545,7 +612,9 @@ function createImportExportControls() {
   }
 
   // Check if import/export controls already exist
-  const existingControls = basicSettingsSection.querySelector(".import-export-controls");
+  const existingControls = basicSettingsSection.querySelector(
+    ".import-export-controls"
+  );
   if (existingControls) {
     existingControls.remove();
   }
@@ -555,9 +624,9 @@ function createImportExportControls() {
   importExportDiv.className = "import-export-controls";
   importExportDiv.innerHTML = `
         <div class="import-export-buttons">
-            <button id="exportConfig" class="btn btn--primary">Export Config</button>
-            <button id="exportCss" class="btn btn--primary">Export CSS</button>
-            <button id="downloadCsv" class="btn btn--primary">Export CSV</button>
+        <button id="exportCss" class="btn btn--primary">Export CSS</button>
+        <button id="downloadCsv" class="btn btn--primary">Export CSV</button>
+        <button id="exportConfig" class="btn btn--primary">Export Config</button>
             <label for="importConfig" class="btn btn--primary">
               Import Config
               <input type="file" id="importConfig" accept=".json" style="display: none" />
@@ -664,7 +733,9 @@ function initializeColorControls() {
 
       if (flat.length === 0) {
         console.warn("No data found for CSV export");
-        alert("No color token data found to export. Please check if the color system is properly configured.");
+        alert(
+          "No color token data found to export. Please check if the color system is properly configured."
+        );
         return;
       }
 
